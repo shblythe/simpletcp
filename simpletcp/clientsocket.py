@@ -19,7 +19,7 @@ class ClientSocket:
         # Handle the port we're going to connect to.
         self.connect_port = port
         if type(self.connect_port) != int:
-            print("port must be an integer", file=sys.stderr)
+            sys.stderr.write("port must be an integer")
             raise ValueError
         # Actually create an INET, STREAMing socket.socket.
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -55,20 +55,22 @@ class ClientSocket:
         if self.single_use:
             # If the socket is single-use and we've already used it:
             if self.used:
-                print("You cannot use a single-use socket twice", file=sys.stderr)
+                sys.stderr.write("You cannot use a single-use socket twice")
                 raise RuntimeError
             # Otherwise, connect
             self._socket.connect((self.connect_ip, self.connect_port))
             # Keep track of whether this socket has been closed.
             self.closed = False
+	""" Not supporting Unicode with this version
         # If data is a string, rather than bytes.
         if type(data) == str:
             # Turn it into UTF-8 bytes.
             data = bytes(data, "UTF-8")
         # If the data isn't bytes at this point, something went wrong.
         if type(data) != bytes:
-            print("data must be a string or bytes", file=sys.stderr)
+            sys.stderr.write("data must be a string or bytes")
             raise ValueError
+	"""
         # Everything is setup, now we must send the data.
         self._socket.send(data)
         # Keep track of the fact that we've sent data (or attempted to).

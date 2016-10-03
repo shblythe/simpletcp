@@ -1,4 +1,4 @@
-import queue
+import Queue
 from simpletcp.tcpserver import TCPServer
 
 def echo(ip, queue, data):
